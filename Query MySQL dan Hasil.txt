@@ -1,0 +1,121 @@
+1. Tampilkan produk yang kode awalnya bukan huruf M
+-> SELECT nama, kode FROM produk WHERE kode NOT LIKE 'M%';
++-------------------+--------+
+| nama              | kode   |
++-------------------+--------+
+| Televisi 21 inchs | TV01   |
+| Televisi 40 inch  | TV02   |
+| Kulkas 2 pintu    | K001   |
+| Teh Kotak         | TK01   |
+| PC Desktop HP     | PC01   |
+| Teh Botol         | TB01   |
+| Notebook Acer S   | AC01   |
+| Notebook Lenovo   | LN01   |
+| Laptop Lenovo     | L005   |
+| Kopi              | L112   |
+| Teh Sosro 2       | L113   |
+| Laptop Asus       | L0015  |
+| Televisi 22 inc`  | TV0115 |
+| Televisi 23 inc   | TV0116 |
+| Televisi 24 inc   | TV0117 |
+| Televisi 25 inc   | TV0118 |
+| Televisi 27 inc   | TV0120 |
+| Televisi 28 inc   | TV0121 |
+| Televisi 29 inc   | TV0122 |
+| Teh Pucuk         | THP001 |
+| Teh Pucuk2        | THP002 |
++-------------------+--------+
+21 rows in set (0.02 sec)
+
+2. Tampilkan produk-produk televisi
+-> SELECT * FROM produk WHERE nama LIKE 'Televisi%';
++----+--------+-------------------+------------+------------+------+----------+------+-----------+-----------------+
+| id | kode   | nama              | harga_beli | harga_jual | stok | min_stok | foto | deskripsi | jenis_produk_id |
++----+--------+-------------------+------------+------------+------+----------+------+-----------+-----------------+
+|  1 | TV01   | Televisi 21 inchs |    3500000 |   50500000 |    5 |        2 |      | NULL      |               1 |
+|  2 | TV02   | Televisi 40 inch  |    5500000 |    7440000 |    4 |        2 | NULL | NULL      |               1 |
+| 19 | TV0115 | Televisi 22 inc`  |    3500000 |   50500000 |    5 |        2 | NULL | NULL      |               1 |
+| 20 | TV0116 | Televisi 23 inc   |    3500000 |   50500000 |    5 |        2 | NULL | NULL      |               1 |
+| 21 | TV0117 | Televisi 24 inc   |    3500000 |   50500000 |    5 |        2 | NULL | NULL      |               1 |
+| 22 | TV0118 | Televisi 25 inc   |    3500000 |   50500000 |    5 |        2 | NULL | NULL      |               1 |
+| 24 | TV0120 | Televisi 27 inc   |    3500000 |   50500000 |    5 |        2 | NULL | NULL      |               1 |
+| 25 | TV0121 | Televisi 28 inc   |    3500000 |   50500000 |    5 |        2 | NULL | NULL      |               1 |
+| 26 | TV0122 | Televisi 29 inc   |    3500000 |   50500000 |    5 |        2 | NULL | NULL      |               1 |
++----+--------+-------------------+------------+------------+------+----------+------+-----------+-----------------+
+9 rows in set (0.00 sec)
+
+3. Tampilkan pelanggan mengandung huruf 'SA'
+-> SELECT * FROM pelanggan WHERE nama LIKE '%SA%';
++----+------+-------------+----+-----------+------------+------------------+----------+
+| id | kode | nama        | jk | tmp_lahir | tgl_lahir  | email            | kartu_id |
++----+------+-------------+----+-----------+------------+------------------+----------+
+|  9 | C009 | Ahmad Hasan | L  | Surabaya  | 1992-10-15 | ahasan@gmail.com |        4 |
+| 10 | C010 | Cassanndra  | P  | Belfast   | 1990-11-20 | casa90@gmail.com |        1 |
++----+------+-------------+----+-----------+------------+------------------+----------+
+2 rows in set (0.01 sec)
+
+4. Tampilkan pelanggan yang lahirnya bukan di Jakarta dan mengandung huruf ‘yo‘
+-> SELECT * FROM pelanggan WHERE tmp_lahir NOT LIKE 'Jakarta' AND tmp_lahir LIKE '%yo%';
++----+------+--------------+----+------------+------------+-----------------+----------+
+| id | kode | nama         | jk | tmp_lahir  | tgl_lahir  | email           | kartu_id |
++----+------+--------------+----+------------+------------+-----------------+----------+
+|  2 | C002 | Pandan Wangi | P  | Yogyakarta | 1950-01-01 | wangi@gmail.com |        2 |
++----+------+--------------+----+------------+------------+-----------------+----------+
+1 row in set (0.00 sec)
+
+5. Tampilkan pelanggan yang karakter huruf ke – 2 nya adalah A
+-> SELECT nama FROM pelanggan WHERE nama LIKE '_A%';
++--------------+
+| nama         |
++--------------+
+| Cassanndra   |
+| Gayatri Dwi  |
+| Pandan Wangi |
++--------------+
+3 rows in set (0.00 sec)
+
+6. Tampilkan produk yang paling murah
+-> SELECT MIN(harga_jual) FROM produk;
++-----------------+
+| MIN(harga_jual) |
++-----------------+
+|            2500 |
++-----------------+
+1 row in set (0.00 sec)
+
+7. Tampilkan produk yang stoknya paling banyak
+-> SELECT * FROM produk WHERE stok = (SELECT MAX(stok) FROM produk);
++----+------+-----------+------------+------------+------+----------+------------+-----------+-----------------+
+| id | kode | nama      | harga_beli | harga_jual | stok | min_stok | foto       | deskripsi | jenis_produk_id |
++----+------+-----------+------------+------------+------+----------+------------+-----------+-----------------+
+|  7 | TB01 | Teh Botol |       2000 |       2500 |   53 |       10 | foto-7.jpg | NULL      |               4 |
++----+------+-----------+------------+------------+------+----------+------------+-----------+-----------------+
+1 row in set (0.00 sec)
+
+8. Tampilkan dua produk yang stoknya paling sedikit
+-> SELECT * FROM produk WHERE stok = (SELECT MIN(stok) FROM produk) LIMIT 2;
++----+------+------------------+------------+------------+------+----------+------+-----------+-----------------+
+| id | kode | nama             | harga_beli | harga_jual | stok | min_stok | foto | deskripsi | jenis_produk_id |
++----+------+------------------+------------+------------+------+----------+------+-----------+-----------------+
+|  2 | TV02 | Televisi 40 inch |    5500000 |    7440000 |    4 |        2 | NULL | NULL      |               1 |
+|  4 | M001 | Meja Makan       |     500000 |     600000 |    4 |        3 | NULL | NULL      |               2 |
++----+------+------------------+------------+------------+------+----------+------+-----------+-----------------+
+2 rows in set (0.00 sec)
+
+9. Tampilkan pelanggan yang paling muda
+-> SELECT * FROM pelanggan ORDER BY tgl_lahir DESC LIMIT 1;
++----+-------+------+----+-----------+------------+---------------+----------+
+| id | kode  | nama | jk | tmp_lahir | tgl_lahir  | email         | kartu_id |
++----+-------+------+----+-----------+------------+---------------+----------+
+| 12 | K0011 | Ira  | P  | Jakarta   | 2023-11-07 | ira@gmail.com |        4 |
++----+-------+------+----+-----------+------------+---------------+----------+
+1 row in set (0.00 sec)
+
+10. Tampilkan pelanggan yang paling tua
+-> SELECT * FROM pelanggan ORDER BY tgl_lahir ASC LIMIT 1;
++----+------+--------------+----+------------+------------+-----------------+----------+
+| id | kode | nama         | jk | tmp_lahir  | tgl_lahir  | email           | kartu_id |
++----+------+--------------+----+------------+------------+-----------------+----------+
+|  2 | C002 | Pandan Wangi | P  | Yogyakarta | 1950-01-01 | wangi@gmail.com |        2 |
++----+------+--------------+----+------------+------------+-----------------+----------+
+1 row in set (0.00 sec)
